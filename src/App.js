@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import React, { useContext } from 'react';
+import QuizList from './components/QuizList';
+import Quiz from './components/Quiz';
+import { QuizContext, QuizProvider } from './context/QuizContext';
+import './styles/App.css';
+
+const App = () => {
+  const { currentQuiz, theme, toggleTheme } = useContext(QuizContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className={`app ${theme}`}>
+      <header>
+        <h1>Quiz App</h1>
+        <button onClick={toggleTheme}>
+          {theme === 'light' ? 'Switch to Dark Theme' : 'Switch to Light Theme'}
+        </button>
       </header>
+      <main>{currentQuiz ? <Quiz /> : <QuizList />}</main>
     </div>
   );
-}
+};
 
-export default App;
+export default () => (
+  <QuizProvider>
+    <App />
+  </QuizProvider>
+);
